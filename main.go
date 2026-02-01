@@ -31,9 +31,17 @@ func main(){
 		_ = viper.ReadInConfig()
 	}
 
+	// Set default values
+	viper.SetDefault("PORT", "8080")
+
 	config := Config{
 		Port: viper.GetString("PORT"),
 		DBConn: viper.GetString("DB_CONN"),
+	}
+
+	// Validate DB_CONN
+	if config.DBConn == "" {
+		log.Fatal("DB_CONN environment variable is not set")
 	}
 
 	addr := ":" + config.Port
